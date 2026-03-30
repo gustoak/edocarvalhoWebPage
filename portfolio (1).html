@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gustavo Carvalho — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f5f0; --surface: #ffffff; --text: #1a1a18; --muted: #6b6b62;
+    --accent: #1d4ed8; --accent-warm: #c2410c; --border: #e2e0d8;
+    --card-bg: #fdfcf9; --tag-bg: #eef2ff; --tag-text: #3730a3; --nav-h: 68px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: var(--nav-h); background: rgba(247,245,240,0.88); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 5vw; }
+  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 1.35rem; color: var(--text); text-decoration: none; letter-spacing: -0.02em; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+  .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .lang-switcher { display: flex; gap: 4px; margin-left: 1.5rem; background: var(--border); border-radius: 20px; padding: 3px; }
+  .lang-btn { background: none; border: none; cursor: pointer; font-size: 0.75rem; font-weight: 600; color: var(--muted); padding: 3px 10px; border-radius: 16px; transition: all 0.2s; font-family: 'DM Sans', sans-serif; letter-spacing: 0.04em; }
+  .lang-btn.active { background: var(--surface); color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+  section { padding: 6rem 5vw; }
+  .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.12; letter-spacing: -0.03em; color: var(--text); margin-bottom: 1.5rem; }
+
+  #hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-top: calc(var(--nav-h) + 4rem); position: relative; overflow: hidden; }
+  .hero-grid-bg { position: absolute; inset: 0; z-index: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 48px 48px; mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%); opacity: 0.5; }
+  .hero-content { position: relative; z-index: 1; max-width: 860px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 100px; padding: 6px 14px; font-size: 0.8rem; font-weight: 500; color: var(--muted); margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 2px rgba(34,197,94,0.25); animation: pulse-dot 2.5s infinite; }
+  @keyframes pulse-dot { 0%,100% { box-shadow: 0 0 0 2px rgba(34,197,94,0.25); } 50% { box-shadow: 0 0 0 5px rgba(34,197,94,0.1); } }
+  .hero-name { font-family: 'DM Serif Display', serif; font-size: clamp(3rem, 7vw, 5.5rem); line-height: 1.0; letter-spacing: -0.04em; margin-bottom: 0.6rem; }
+  .hero-name em { font-style: italic; color: var(--accent); }
+  .hero-title { font-size: clamp(0.95rem, 1.8vw, 1.15rem); color: var(--muted); font-weight: 400; margin-bottom: 1.25rem; max-width: 640px; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 1.75rem; }
+  .hero-chip { background: var(--surface); border: 1px solid var(--border); border-radius: 100px; padding: 5px 13px; font-size: 0.77rem; font-weight: 500; color: var(--muted); }
+  .hero-desc { font-size: 1rem; color: var(--muted); max-width: 580px; margin-bottom: 2.5rem; line-height: 1.7; }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.9rem; text-decoration: none; cursor: pointer; transition: all 0.2s; border: none; }
+  .btn-primary { background: var(--text); color: #fff; }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(29,78,216,0.25); }
+  .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--border); }
+  .btn-outline:hover { border-color: var(--text); transform: translateY(-1px); }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .stat-num { font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--text); letter-spacing: -0.03em; }
+  .stat-label { font-size: 0.8rem; color: var(--muted); }
+
+  #projects { background: var(--surface); }
+  .projects-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem; }
+  .filter-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn { background: none; border: 1.5px solid var(--border); border-radius: 100px; padding: 6px 16px; font-size: 0.8rem; font-weight: 500; cursor: pointer; color: var(--muted); transition: all 0.2s; font-family: 'DM Sans', sans-serif; }
+  .filter-btn.active, .filter-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--tag-bg); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+  .project-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: all 0.25s; cursor: pointer; display: flex; flex-direction: column; }
+  .project-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.08); border-color: #c7c4bb; }
+  .project-media { position: relative; height: 170px; overflow: hidden; background: linear-gradient(135deg, #f0efea 0%, #e8e5dc 100%); }
+  .media-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .project-type-badge { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.92); border-radius: 6px; padding: 4px 10px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); display: flex; align-items: center; gap: 5px; backdrop-filter: blur(4px); }
+  .project-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
+  .project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 0.65rem; }
+  .tag { background: var(--tag-bg); color: var(--tag-text); font-size: 0.68rem; font-weight: 600; padding: 3px 9px; border-radius: 100px; letter-spacing: 0.04em; }
+  .project-title { font-family: 'DM Serif Display', serif; font-size: 1.15rem; margin-bottom: 0.45rem; letter-spacing: -0.02em; }
+  .project-desc { font-size: 0.845rem; color: var(--muted); line-height: 1.6; flex: 1; }
+  .project-footer { margin-top: 1.1rem; padding-top: 1.1rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .project-date { font-size: 0.77rem; color: var(--muted); }
+  .project-link { font-size: 0.77rem; font-weight: 500; color: var(--accent); cursor: pointer; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); transition: all 0.2s; }
+  .project-link:hover { background: var(--tag-bg); border-color: var(--accent); }
+
+  #resume { background: var(--bg); }
+  .resume-layout { display: grid; grid-template-columns: 310px 1fr; gap: 4rem; align-items: start; }
+  .resume-preview-wrap { position: sticky; top: calc(var(--nav-h) + 2rem); }
+  .resume-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 1.85rem; box-shadow: 0 8px 40px rgba(0,0,0,0.06); }
+  .resume-avatar-row { display: flex; align-items: center; gap: 1.1rem; margin-bottom: 1.6rem; }
+  .resume-avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%); display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: #fff; flex-shrink: 0; }
+  .resume-name-block h3 { font-family: 'DM Serif Display', serif; font-size: 1.1rem; letter-spacing: -0.02em; }
+  .resume-name-block p { font-size: 0.78rem; color: var(--muted); line-height: 1.4; margin-top: 2px; }
+  .resume-section-block { margin-bottom: 1.35rem; }
+  .resume-section-block h4 { font-size: 0.67rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+  .resume-contact-line { font-size: 0.81rem; color: var(--muted); line-height: 2; }
+  .resume-contact-line a { color: var(--accent); text-decoration: none; }
+  .skills-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .skill-tag { background: var(--tag-bg); color: var(--tag-text); font-size: 0.68rem; font-weight: 600; padding: 3px 9px; border-radius: 100px; }
+  .cert-item { font-size: 0.8rem; color: var(--muted); margin-bottom: 4px; padding-left: 0.75rem; position: relative; line-height: 1.5; }
+  .cert-item::before { content: '·'; position: absolute; left: 0; color: var(--accent); }
+  .edu-item { margin-bottom: 0.5rem; }
+  .edu-degree { font-weight: 600; font-size: 0.85rem; }
+  .edu-school { font-size: 0.79rem; color: var(--muted); }
+  .edu-year { font-size: 0.74rem; color: var(--muted); }
+  .resume-actions { display: flex; gap: 0.6rem; margin-top: 1.4rem; flex-wrap: wrap; }
+
+  .resume-details h2 { margin-bottom: 0.5rem; }
+  .resume-intro { font-size: 0.93rem; color: var(--muted); margin-bottom: 2.5rem; line-height: 1.75; }
+  .timeline-section-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.25rem; margin-top: 2rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+  .timeline-list { list-style: none; }
+  .timeline-item { display: flex; gap: 1.2rem; padding-bottom: 1.75rem; position: relative; }
+  .timeline-item::before { content: ''; position: absolute; left: 8px; top: 22px; bottom: 0; width: 1px; background: var(--border); }
+  .timeline-item:last-child::before { display: none; }
+  .timeline-dot { width: 17px; height: 17px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border); flex-shrink: 0; margin-top: 4px; position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; }
+  .timeline-dot::after { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+  .timeline-dot.current { border-color: var(--accent); }
+  .timeline-dot.current::after { box-shadow: 0 0 0 3px rgba(29,78,216,0.15); }
+  .timeline-content { flex: 1; }
+  .timeline-period { font-size: 0.73rem; color: var(--muted); font-weight: 500; margin-bottom: 0.2rem; }
+  .timeline-role { font-weight: 600; font-size: 0.93rem; margin-bottom: 0.12rem; }
+  .timeline-company { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.45rem; }
+  .timeline-bullets { list-style: none; }
+  .timeline-bullets li { font-size: 0.81rem; color: var(--muted); padding-left: 1rem; position: relative; margin-bottom: 3px; line-height: 1.55; }
+  .timeline-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.65rem; top: 4px; }
+
+  #contact { background: var(--text); color: #fff; text-align: center; }
+  #contact .section-label { color: #6b9cf4; }
+  #contact .section-title { color: #fff; }
+  .contact-sub { font-size: 1rem; color: rgba(255,255,255,0.55); margin-bottom: 2.5rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .contact-form { max-width: 520px; margin: 0 auto; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1rem; }
+  .form-group label { font-size: 0.8rem; color: rgba(255,255,255,0.55); font-weight: 500; text-align: left; }
+  .form-group input, .form-group textarea { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 12px 16px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: #fff; outline: none; transition: border-color 0.2s; resize: none; }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+  .form-group input:focus, .form-group textarea:focus { border-color: rgba(107,156,244,0.6); background: rgba(255,255,255,0.08); }
+  .form-group textarea { height: 120px; }
+  .btn-send { width: 100%; background: var(--accent); color: #fff; border: none; padding: 14px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn-send:hover { background: #2563eb; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(29,78,216,0.4); }
+  .contact-alts { margin-top: 2.5rem; display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+  .contact-alt-link { color: rgba(255,255,255,0.5); font-size: 0.85rem; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+  .contact-alt-link:hover { color: #fff; }
+  .success-msg { display: none; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 12px; color: #86efac; font-size: 0.9rem; margin-top: 1rem; text-align: center; }
+  .success-msg.show { display: block; }
+
+  footer { background: #111; color: rgba(255,255,255,0.35); text-align: center; padding: 1.5rem 5vw; font-size: 0.8rem; }
+
+  .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(10,10,8,0.7); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal { background: var(--surface); border-radius: 20px; overflow: hidden; max-width: 680px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 40px 100px rgba(0,0,0,0.25); transform: translateY(20px); transition: transform 0.25s; }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-media { height: 230px; background: var(--border); overflow: hidden; position: relative; }
+  .modal-media .media-placeholder { height: 100%; }
+  .modal-close { position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; z-index: 1; }
+  .modal-close:hover { background: #fff; }
+  .modal-body { padding: 1.75rem; }
+  .modal-title { font-family: 'DM Serif Display', serif; font-size: 1.6rem; letter-spacing: -0.03em; margin-bottom: 0.45rem; }
+  .modal-desc { font-size: 0.92rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.4rem; }
+  .modal-steps h4 { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+  .modal-steps ol { padding-left: 1.2rem; }
+  .modal-steps ol li { font-size: 0.87rem; color: var(--muted); margin-bottom: 0.45rem; line-height: 1.6; }
+  .modal-actions { margin-top: 1.4rem; display: flex; gap: 0.75rem; }
+
+  @media (max-width: 900px) { .resume-layout { grid-template-columns: 1fr; } .resume-preview-wrap { position: static; } }
+  @media (max-width: 768px) { .nav-links { display: none; } .form-row { grid-template-columns: 1fr; } .hero-stats { gap: 2rem; } .projects-header { flex-direction: column; align-items: flex-start; } }
+
+  .fade-up { opacity: 0; transform: translateY(24px); animation: fadeUp 0.6s ease forwards; }
+  @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+  .fade-up:nth-child(1){animation-delay:0.05s}.fade-up:nth-child(2){animation-delay:0.15s}.fade-up:nth-child(3){animation-delay:0.22s}.fade-up:nth-child(4){animation-delay:0.3s}.fade-up:nth-child(5){animation-delay:0.38s}.fade-up:nth-child(6){animation-delay:0.45s}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">G<span>.</span>C</a>
+  <ul class="nav-links">
+    <li><a href="#projects" data-i18n="nav.projects">Projects</a></li>
+    <li><a href="#resume" data-i18n="nav.resume">Resume</a></li>
+    <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+  </ul>
+  <div class="lang-switcher">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" onclick="setLang('pt')">PT</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge fade-up"><span class="badge-dot"></span><span data-i18n="hero.badge">Open to opportunities · Montréal, QC</span></div>
+    <h1 class="hero-name fade-up">Gustavo<br><em>Carvalho</em></h1>
+    <p class="hero-title fade-up" data-i18n="hero.title">Infrastructure & Cloud Operations Engineer · DevOps-Focused</p>
+    <div class="hero-chips fade-up">
+      <span class="hero-chip">☁️ Azure</span><span class="hero-chip">🐳 Docker</span>
+      <span class="hero-chip">🔒 Fortinet</span><span class="hero-chip">🖥 Microsoft 365</span>
+      <span class="hero-chip">⚙️ PowerShell</span><span class="hero-chip">🐧 Linux</span>
+      <span class="hero-chip">🔧 AWS</span><span class="hero-chip">🛡 SentinelOne</span>
+    </div>
+    <p class="hero-desc fade-up" data-i18n="hero.desc">15+ years managing enterprise IT environments across Canada and Brazil. Currently supporting Windows Server, Microsoft 365, Azure, containerized apps, and secure hybrid network infrastructures in Montréal.</p>
+    <div class="hero-actions fade-up">
+      <a href="#projects" class="btn btn-primary" data-i18n="hero.cta.projects">View Projects ↓</a>
+      <a href="#resume" class="btn btn-outline" data-i18n="hero.cta.resume">See Resume</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">15+</div><div class="stat-label" data-i18n="stats.years">Years of experience</div></div>
+      <div><div class="stat-num">500+</div><div class="stat-label" data-i18n="stats.connections">LinkedIn connections</div></div>
+      <div><div class="stat-num">3</div><div class="stat-label" data-i18n="stats.langs">Languages spoken</div></div>
+      <div><div class="stat-num">2</div><div class="stat-label" data-i18n="stats.countries">Countries worked in</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header">
+    <div>
+      <div class="section-label" data-i18n="projects.label">Work</div>
+      <h2 class="section-title" data-i18n="projects.title">Featured Projects</h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-btn active" onclick="filterProjects('all',event)" data-i18n="filter.all">All</button>
+      <button class="filter-btn" onclick="filterProjects('devops',event)" data-i18n="filter.devops">DevOps</button>
+      <button class="filter-btn" onclick="filterProjects('infra',event)" data-i18n="filter.infra">Infra</button>
+      <button class="filter-btn" onclick="filterProjects('video',event)" data-i18n="filter.video">Video</button>
+      <button class="filter-btn" onclick="filterProjects('text',event)" data-i18n="filter.text">Article</button>
+    </div>
+  </div>
+  <div class="projects-grid" id="projectsGrid"></div>
+</section>
+
+<!-- RESUME -->
+<section id="resume">
+  <div class="section-label" data-i18n="resume.label">About</div>
+  <div class="resume-layout">
+    <div class="resume-preview-wrap">
+      <div class="resume-card">
+        <div class="resume-avatar-row">
+          <div class="resume-avatar">GC</div>
+          <div class="resume-name-block">
+            <h3>Gustavo Carvalho</h3>
+            <p data-i18n="resume.card.role">Infrastructure & Cloud Operations Engineer</p>
+          </div>
+        </div>
+        <div class="resume-section-block">
+          <h4 data-i18n="resume.card.contact">Contact</h4>
+          <div class="resume-contact-line">
+            📧 <a href="mailto:ggusttavo@gmail.com">ggusttavo@gmail.com</a><br>
+            📍 <span data-i18n="resume.card.location">Laval, Quebec, Canada</span><br>
+            💼 <a href="https://www.linkedin.com/in/" target="_blank">LinkedIn Profile</a><br>
+            🌐 <span data-i18n="resume.card.langs">EN · FR · PT-BR</span>
+          </div>
+        </div>
+        <div class="resume-section-block">
+          <h4 data-i18n="resume.card.skills">Core Skills</h4>
+          <div class="skills-row">
+            <span class="skill-tag">Windows Server</span><span class="skill-tag">Linux</span>
+            <span class="skill-tag">Azure</span><span class="skill-tag">Microsoft 365</span>
+            <span class="skill-tag">Docker</span><span class="skill-tag">ProxMox</span>
+            <span class="skill-tag">Fortinet</span><span class="skill-tag">Aruba Wi-Fi</span>
+            <span class="skill-tag">Intune</span><span class="skill-tag">SentinelOne EDR</span>
+            <span class="skill-tag">Cisco Duo MFA</span><span class="skill-tag">WatchGuard</span>
+            <span class="skill-tag">ConnectWise RMM</span><span class="skill-tag">PowerShell</span>
+            <span class="skill-tag">SQL Server</span><span class="skill-tag">Veeam</span>
+            <span class="skill-tag">AWS EC2 / S3</span><span class="skill-tag">Git / GitHub</span>
+            <span class="skill-tag">KnowBe4</span><span class="skill-tag">Lightspeed POS</span>
+          </div>
+        </div>
+        <div class="resume-section-block">
+          <h4 data-i18n="resume.card.education">Education</h4>
+          <div class="edu-item">
+            <div class="edu-degree" data-i18n="resume.edu.degree">Computer Networking & IT Administration</div>
+            <div class="edu-school">Universidade Paulista (UNIP)</div>
+            <div class="edu-year">2007 – 2009 · Brazil</div>
+          </div>
+        </div>
+        <div class="resume-section-block">
+          <h4 data-i18n="resume.card.courses">Courses & Training</h4>
+          <div class="cert-item">Leadership Training (2018) — Casa do Pão de Queijo</div>
+          <div class="cert-item">Leader Training — Silva4 Treinamentos (2019)</div>
+          <div class="cert-item">AWS Cloud & DevOps — NextWork (2024)</div>
+          <div class="cert-item">Docker & Containers — Formação DevOps Pro</div>
+        </div>
+        <div class="resume-section-block">
+          <h4 data-i18n="resume.card.languages">Languages</h4>
+          <div class="skills-row">
+            <span class="skill-tag">🇧🇷 Portuguese (Native)</span>
+            <span class="skill-tag">🇺🇸 English (Professional)</span>
+            <span class="skill-tag">🇫🇷 French (Elementary)</span>
+          </div>
+        </div>
+        <div class="resume-actions">
+          <a href="#" onclick="downloadResume()" class="btn btn-primary" style="flex:1;justify-content:center;" data-i18n="resume.download">↓ Download PDF</a>
+          <a href="mailto:ggusttavo@gmail.com" class="btn btn-outline" data-i18n="resume.email">Email me</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="resume-details">
+      <h2 class="section-title" data-i18n="resume.title">Professional<br><em style="font-style:italic;color:var(--accent)">Experience</em></h2>
+      <p class="resume-intro" data-i18n="resume.intro">Infrastructure and Cloud Operations Engineer with 15+ years of experience managing enterprise IT environments across retail and corporate sectors in Canada and Brazil. Currently focused on reliability, operational stability, and continuous improvement of infrastructure services — with growing expertise in automation, containerization, and cloud-native practices.</p>
+
+      <div class="timeline-section-label" data-i18n="exp.section">Work History</div>
+      <ul class="timeline-list">
+        <li class="timeline-item">
+          <div class="timeline-dot current"></div>
+          <div class="timeline-content">
+            <div class="timeline-period" data-i18n="exp.1.period">Dec 2025 – Present · 4 months</div>
+            <div class="timeline-role" data-i18n="exp.1.role">IT Support Analyst</div>
+            <div class="timeline-company">ITED · Contract · Montréal, QC (On-site)</div>
+            <ul class="timeline-bullets">
+              <li data-i18n="exp.1.b1">Retained after IT outsourcing transition, continuing to support the same enterprise environment</li>
+              <li data-i18n="exp.1.b2">Windows Server, Linux, Azure, Microsoft 365 (Exchange Online, Teams, SharePoint, Intune)</li>
+              <li data-i18n="exp.1.b3">Network: Fortinet firewalls/switches, Aruba Wi-Fi, Lightspeed POS retail system</li>
+              <li data-i18n="exp.1.b4">Security: SentinelOne EDR, Cisco Duo MFA, WatchGuard, KnowBe4 awareness campaigns</li>
+              <li data-i18n="exp.1.b5">Device lifecycle via ConnectWise RMM; credentials via Passportal; docs via EDOC</li>
+            </ul>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-period" data-i18n="exp.2.period">Feb 2023 – Nov 2025 · 2 yrs 10 mos</div>
+            <div class="timeline-role" data-i18n="exp.2.role">IT Support L2</div>
+            <div class="timeline-company">Bixlers · Permanent · Montréal, QC (On-site)</div>
+            <ul class="timeline-bullets">
+              <li data-i18n="exp.2.b1">Support across Windows Servers, Linux, MS Office 365, Aruba Wi-Fi, Lightspeed POS</li>
+              <li data-i18n="exp.2.b2">Management of HP/Dell hardware, Fortinet Firewall/Switch, Storage, ProxMox, Docker</li>
+              <li data-i18n="exp.2.b3">Azure cloud services, MS Intune, and endpoint management</li>
+            </ul>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-period" data-i18n="exp.3.period">May 2018 – Feb 2023 · 4 yrs 10 mos</div>
+            <div class="timeline-role" data-i18n="exp.3.role">Network Team Lead</div>
+            <div class="timeline-company">Casa do Pão de Queijo · Itupeva, SP, Brazil</div>
+            <ul class="timeline-bullets">
+              <li data-i18n="exp.3.b1">Network infrastructure for all stores and factories (Windows Server, Veeam, SonicWall, SQL)</li>
+              <li data-i18n="exp.3.b2">WAN/MPLS connectivity, Microsoft O365, GSUITE, and POS systems across Brazil</li>
+              <li data-i18n="exp.3.b3">High availability and equipment lifecycle management across all retail locations</li>
+              <li data-i18n="exp.3.b4">PowerShell automation for servers, end-users, and task management</li>
+            </ul>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-period" data-i18n="exp.4.period">Oct 2016 – May 2018 · 1 yr 8 mos</div>
+            <div class="timeline-role" data-i18n="exp.4.role">Senior Network Engineer</div>
+            <div class="timeline-company">Casa do Pão de Queijo · Brazil</div>
+            <ul class="timeline-bullets">
+              <li data-i18n="exp.4.b1">Led negotiation and management of supplier and technology partner contracts</li>
+              <li data-i18n="exp.4.b2">Managed SQL 2014 real-time financial imports from 30 stores via XML files</li>
+              <li data-i18n="exp.4.b3">TOTVS Protheus ERP customization and infrastructure migration projects</li>
+            </ul>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-period" data-i18n="exp.5.period">Oct 2014 – Oct 2016 · 2 yrs</div>
+            <div class="timeline-role" data-i18n="exp.5.role">Network Engineer</div>
+            <div class="timeline-company">Casa do Pão de Queijo · Brazil</div>
+            <ul class="timeline-bullets">
+              <li data-i18n="exp.5.b1">Systems administration: Windows Servers, FTP, Office 365, ERP TOTVS, Zabbix, SonicWall, NCR Aloha POS</li>
+              <li data-i18n="exp.5.b2">End user support for 300 users; inventory, documentation, and vendor contract management</li>
+            </ul>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-period" data-i18n="exp.6.period">Oct 2012 – Oct 2014 · 2 yrs</div>
+            <div class="timeline-role" data-i18n="exp.6.role">IT Support Analyst</div>
+            <div class="timeline-company">Casa do Pão de Queijo · Brazil</div>
+            <ul class="timeline-bullets">
+              <li data-i18n="exp.6.b1">Remote and on-site support for factory and administrative office (300+ user company)</li>
+              <li data-i18n="exp.6.b2">Hardware repair, laptop/desktop maintenance, N1 ERP TOTVS Protheus support</li>
+            </ul>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-period" data-i18n="exp.7.period">Jul 2012 – Sep 2012 · 3 mos</div>
+            <div class="timeline-role" data-i18n="exp.7.role">Network Support Analyst</div>
+            <div class="timeline-company">Groupon · São Paulo, Brazil</div>
+            <ul class="timeline-bullets">
+              <li data-i18n="exp.7.b1">Application and data center support; remote end-user support across Brazil for an international company</li>
+            </ul>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-period" data-i18n="exp.8.period">Oct 2008 – Jul 2012 · 3 yrs 10 mos</div>
+            <div class="timeline-role" data-i18n="exp.8.role">Network Support Analyst</div>
+            <div class="timeline-company">Promaxi Tecnologia · Jundiaí, SP, Brazil</div>
+            <ul class="timeline-bullets">
+              <li data-i18n="exp.8.b1">Network architecture and administration for private and corporate organizations</li>
+              <li data-i18n="exp.8.b2">Technologies: Firewall, Windows Servers, VPN, Application Virtualization, Proxy, Backup, VOIP</li>
+              <li data-i18n="exp.8.b3">Field team leader — weekly scheduling and emergency on-site coordination</li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label" data-i18n="contact.label">Get in touch</div>
+  <h2 class="section-title" data-i18n="contact.title">Let's Work Together</h2>
+  <p class="contact-sub" data-i18n="contact.sub">Have a project in mind or want to discuss an opportunity? I'd love to hear from you.</p>
+  <div class="contact-form">
+    <div class="form-row">
+      <div class="form-group"><label data-i18n="form.name">Name</label><input type="text" id="cName" placeholder="John Smith" /></div>
+      <div class="form-group"><label data-i18n="form.email">Email</label><input type="email" id="cEmail" placeholder="john@company.com" /></div>
+    </div>
+    <div class="form-group"><label data-i18n="form.subject">Subject</label><input type="text" id="cSubject" placeholder="Job opportunity / Project proposal..." /></div>
+    <div class="form-group"><label data-i18n="form.message">Message</label><textarea id="cMessage" placeholder="Tell me about your opportunity or project..."></textarea></div>
+    <button class="btn-send" onclick="sendEmail()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9"/></svg>
+      <span data-i18n="form.send">Send Message</span>
+    </button>
+    <div class="success-msg" id="successMsg" data-i18n="form.success">✓ Message sent! I'll get back to you soon.</div>
+  </div>
+  <div class="contact-alts">
+    <a href="mailto:ggusttavo@gmail.com" class="contact-alt-link">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      ggusttavo@gmail.com
+    </a>
+    <a href="https://linkedin.com/in/" target="_blank" class="contact-alt-link">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+    <a href="https://github.com/" target="_blank" class="contact-alt-link">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+      GitHub
+    </a>
+  </div>
+</section>
+
+<footer><span data-i18n="footer.text">© 2025 Gustavo Carvalho · Infrastructure & Cloud Operations Engineer · Montréal, QC</span></footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal">
+    <div class="modal-media" id="modalMedia"><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="project-tags" id="modalTags"></div>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-steps" id="modalSteps"></div>
+      <div class="modal-actions" id="modalActions"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const i18n = {
+  en: {
+    "nav.projects":"Projects","nav.resume":"Resume","nav.contact":"Contact",
+    "hero.badge":"Open to opportunities · Montréal, QC",
+    "hero.title":"Infrastructure & Cloud Operations Engineer · DevOps-Focused",
+    "hero.desc":"15+ years managing enterprise IT environments across Canada and Brazil. Currently supporting Windows Server, Microsoft 365, Azure, containerized apps, and secure hybrid network infrastructures in Montréal.",
+    "hero.cta.projects":"View Projects ↓","hero.cta.resume":"See Resume",
+    "stats.years":"Years of experience","stats.connections":"LinkedIn connections","stats.langs":"Languages spoken","stats.countries":"Countries worked in",
+    "projects.label":"Work","projects.title":"Featured Projects",
+    "filter.all":"All","filter.devops":"DevOps","filter.infra":"Infra","filter.video":"Video","filter.text":"Article",
+    "resume.label":"About","resume.title":"Professional Experience",
+    "resume.intro":"Infrastructure and Cloud Operations Engineer with 15+ years of experience managing enterprise IT environments across retail and corporate sectors in Canada and Brazil. Currently focused on reliability, operational stability, and continuous improvement — with growing expertise in automation, containerization, and cloud-native practices.",
+    "resume.card.role":"Infrastructure & Cloud Operations Engineer",
+    "resume.card.contact":"Contact","resume.card.location":"Laval, Quebec, Canada","resume.card.langs":"EN · FR · PT-BR",
+    "resume.card.skills":"Core Skills","resume.card.education":"Education","resume.card.courses":"Courses & Training","resume.card.languages":"Languages",
+    "resume.edu.degree":"Computer Networking & IT Administration",
+    "resume.download":"↓ Download PDF","resume.email":"Email me",
+    "exp.section":"Work History",
+    "exp.1.period":"Dec 2025 – Present · 4 months","exp.1.role":"IT Support Analyst",
+    "exp.1.b1":"Retained after IT outsourcing transition, continuing to support the same enterprise environment",
+    "exp.1.b2":"Windows Server, Linux, Azure, Microsoft 365 (Exchange Online, Teams, SharePoint, Intune)",
+    "exp.1.b3":"Network: Fortinet firewalls/switches, Aruba Wi-Fi, Lightspeed POS retail system",
+    "exp.1.b4":"Security: SentinelOne EDR, Cisco Duo MFA, WatchGuard, KnowBe4 awareness campaigns",
+    "exp.1.b5":"Device lifecycle via ConnectWise RMM; credentials via Passportal; docs via EDOC",
+    "exp.2.period":"Feb 2023 – Nov 2025 · 2 yrs 10 mos","exp.2.role":"IT Support L2",
+    "exp.2.b1":"Support across Windows Servers, Linux, MS Office 365, Aruba Wi-Fi, Lightspeed POS",
+    "exp.2.b2":"Management of HP/Dell hardware, Fortinet Firewall/Switch, Storage, ProxMox, Docker",
+    "exp.2.b3":"Azure cloud services, MS Intune, and endpoint management",
+    "exp.3.period":"May 2018 – Feb 2023 · 4 yrs 10 mos","exp.3.role":"Network Team Lead",
+    "exp.3.b1":"Network infrastructure for all stores and factories (Windows Server, Veeam, SonicWall, SQL)",
+    "exp.3.b2":"WAN/MPLS connectivity, Microsoft O365, GSUITE, and POS systems across Brazil",
+    "exp.3.b3":"High availability and equipment lifecycle management across all retail locations",
+    "exp.3.b4":"PowerShell automation for servers, end-users, and task management",
+    "exp.4.period":"Oct 2016 – May 2018 · 1 yr 8 mos","exp.4.role":"Senior Network Engineer",
+    "exp.4.b1":"Led negotiation and management of supplier and technology partner contracts",
+    "exp.4.b2":"Managed SQL 2014 real-time financial imports from 30 stores via XML files",
+    "exp.4.b3":"TOTVS Protheus ERP customization and infrastructure migration projects",
+    "exp.5.period":"Oct 2014 – Oct 2016 · 2 yrs","exp.5.role":"Network Engineer",
+    "exp.5.b1":"Systems administration: Windows Servers, FTP, Office 365, ERP TOTVS, Zabbix, SonicWall, NCR Aloha POS",
+    "exp.5.b2":"End user support for 300 users; inventory, documentation, and vendor contract management",
+    "exp.6.period":"Oct 2012 – Oct 2014 · 2 yrs","exp.6.role":"IT Support Analyst",
+    "exp.6.b1":"Remote and on-site support for factory and administrative office",
+    "exp.6.b2":"Hardware repair, laptop/desktop maintenance, N1 ERP TOTVS Protheus support",
+    "exp.7.period":"Jul 2012 – Sep 2012 · 3 mos","exp.7.role":"Network Support Analyst",
+    "exp.7.b1":"Application and data center support; remote end-user support across Brazil (Groupon)",
+    "exp.8.period":"Oct 2008 – Jul 2012 · 3 yrs 10 mos","exp.8.role":"Network Support Analyst",
+    "exp.8.b1":"Network architecture and administration for private and corporate organizations (Promaxi)",
+    "exp.8.b2":"Technologies: Firewall, Windows Servers, VPN, Application Virtualization, Proxy, Backup, VOIP",
+    "exp.8.b3":"Field team leader — weekly scheduling and emergency on-site coordination",
+    "contact.label":"Get in touch","contact.title":"Let's Work Together",
+    "contact.sub":"Have a project in mind or want to discuss an opportunity? I'd love to hear from you.",
+    "form.name":"Name","form.email":"Email","form.subject":"Subject","form.message":"Message",
+    "form.send":"Send Message","form.success":"✓ Message sent! I'll get back to you soon.",
+    "footer.text":"© 2025 Gustavo Carvalho · Infrastructure & Cloud Operations Engineer · Montréal, QC",
+    "modal.steps":"How it works","modal.github":"View on GitHub","modal.live":"Live Demo",
+  },
+  fr: {
+    "nav.projects":"Projets","nav.resume":"CV","nav.contact":"Contact",
+    "hero.badge":"Ouvert aux opportunités · Montréal, QC",
+    "hero.title":"Ingénieur Infrastructure & Cloud Operations · Orienté DevOps",
+    "hero.desc":"15+ ans de gestion d'environnements IT d'entreprise au Canada et au Brésil. Support de Windows Server, Microsoft 365, Azure, conteneurs et infrastructures réseau hybrides sécurisées à Montréal.",
+    "hero.cta.projects":"Voir les projets ↓","hero.cta.resume":"Voir le CV",
+    "stats.years":"Années d'expérience","stats.connections":"Connexions LinkedIn","stats.langs":"Langues parlées","stats.countries":"Pays d'expérience",
+    "projects.label":"Travaux","projects.title":"Projets en vedette",
+    "filter.all":"Tous","filter.devops":"DevOps","filter.infra":"Infra","filter.video":"Vidéo","filter.text":"Article",
+    "resume.label":"À propos","resume.title":"Expérience Professionnelle",
+    "resume.intro":"Ingénieur Infrastructure et Cloud Operations avec 15+ ans d'expérience en gestion d'environnements IT d'entreprise dans les secteurs retail et corporatif au Canada et au Brésil. Axé sur la fiabilité, la stabilité opérationnelle et l'amélioration continue, avec expertise croissante en automatisation et conteneurisation.",
+    "resume.card.role":"Ingénieur Infrastructure & Cloud Operations",
+    "resume.card.contact":"Contact","resume.card.location":"Laval, Québec, Canada","resume.card.langs":"EN · FR · PT-BR",
+    "resume.card.skills":"Compétences Principales","resume.card.education":"Éducation","resume.card.courses":"Formations","resume.card.languages":"Langues",
+    "resume.edu.degree":"Réseaux Informatiques & Administration IT",
+    "resume.download":"↓ Télécharger PDF","resume.email":"M'écrire",
+    "exp.section":"Historique de Carrière",
+    "exp.1.period":"Déc 2025 – Présent · 4 mois","exp.1.role":"Analyste Support TI",
+    "exp.1.b1":"Maintenu après transition d'impartition TI, continuant à soutenir le même environnement d'entreprise",
+    "exp.1.b2":"Windows Server, Linux, Azure, Microsoft 365 (Exchange Online, Teams, SharePoint, Intune)",
+    "exp.1.b3":"Réseau: Pare-feux/commutateurs Fortinet, Wi-Fi Aruba, système POS Lightspeed",
+    "exp.1.b4":"Sécurité: SentinelOne EDR, Cisco Duo MFA, WatchGuard, campagnes KnowBe4",
+    "exp.1.b5":"Cycle de vie appareils via ConnectWise RMM; identifiants via Passportal; docs via EDOC",
+    "exp.2.period":"Fév 2023 – Nov 2025 · 2 ans 10 mois","exp.2.role":"Support TI N2",
+    "exp.2.b1":"Support Windows Servers, Linux, MS Office 365, Aruba Wi-Fi, Lightspeed POS",
+    "exp.2.b2":"Gestion matériel HP/Dell, Fortinet, Storage, ProxMox, Docker",
+    "exp.2.b3":"Services cloud Azure, MS Intune et gestion des terminaux",
+    "exp.3.period":"Mai 2018 – Fév 2023 · 4 ans 10 mois","exp.3.role":"Chef d'équipe Réseau",
+    "exp.3.b1":"Infrastructure réseau pour toutes les boutiques et usines (Windows Server, Veeam, SonicWall, SQL)",
+    "exp.3.b2":"Connectivité WAN/MPLS, Microsoft O365, GSUITE et systèmes POS partout au Brésil",
+    "exp.3.b3":"Haute disponibilité et gestion du cycle de vie des équipements dans tous les points de vente",
+    "exp.3.b4":"Automatisation PowerShell pour serveurs, utilisateurs et gestion des tâches",
+    "exp.4.period":"Oct 2016 – Mai 2018 · 1 an 8 mois","exp.4.role":"Ingénieur Réseau Senior",
+    "exp.4.b1":"Gestion des contrats avec fournisseurs et partenaires technologiques",
+    "exp.4.b2":"Importations financières SQL 2014 en temps réel depuis 30 magasins via fichiers XML",
+    "exp.4.b3":"Personnalisation ERP TOTVS Protheus et projets de migration d'infrastructure",
+    "exp.5.period":"Oct 2014 – Oct 2016 · 2 ans","exp.5.role":"Ingénieur Réseau",
+    "exp.5.b1":"Administration: Windows Servers, FTP, Office 365, ERP TOTVS, Zabbix, SonicWall, NCR Aloha POS",
+    "exp.5.b2":"Support 300 utilisateurs; inventaire, documentation et gestion fournisseurs",
+    "exp.6.period":"Oct 2012 – Oct 2014 · 2 ans","exp.6.role":"Analyste Support TI",
+    "exp.6.b1":"Support usine et bureau administratif (distant et sur site)",
+    "exp.6.b2":"Réparation matériel et support N1 pour ERP TOTVS Protheus",
+    "exp.7.period":"Juil 2012 – Sep 2012 · 3 mois","exp.7.role":"Analyste Support Réseau",
+    "exp.7.b1":"Support applicatif et data center; support utilisateurs à distance au Brésil (Groupon)",
+    "exp.8.period":"Oct 2008 – Juil 2012 · 3 ans 10 mois","exp.8.role":"Analyste Support Réseau",
+    "exp.8.b1":"Architecture et administration réseau pour clients privés et corporatifs (Promaxi)",
+    "exp.8.b2":"Technologies: Pare-feu, Windows Servers, VPN, Virtualisation, Proxy, Sauvegarde, VOIP",
+    "exp.8.b3":"Chef d'équipe terrain — planification hebdomadaire et interventions d'urgence",
+    "contact.label":"Me contacter","contact.title":"Travaillons Ensemble",
+    "contact.sub":"Vous avez un projet ou souhaitez discuter d'une opportunité? Je serais ravi d'échanger.",
+    "form.name":"Nom","form.email":"Courriel","form.subject":"Sujet","form.message":"Message",
+    "form.send":"Envoyer","form.success":"✓ Message envoyé! Je vous répondrai bientôt.",
+    "footer.text":"© 2025 Gustavo Carvalho · Ingénieur Infrastructure & Cloud · Montréal, QC",
+    "modal.steps":"Comment ça fonctionne","modal.github":"Voir sur GitHub","modal.live":"Démo en direct",
+  },
+  pt: {
+    "nav.projects":"Projetos","nav.resume":"Currículo","nav.contact":"Contato",
+    "hero.badge":"Aberto a oportunidades · Montreal, QC",
+    "hero.title":"Engenheiro de Infraestrutura & Cloud Operations · Foco em DevOps",
+    "hero.desc":"15+ anos gerenciando ambientes de TI empresariais no Canadá e no Brasil. Suportando Windows Server, Microsoft 365, Azure, apps containerizadas e infraestruturas de rede híbridas seguras em Montreal.",
+    "hero.cta.projects":"Ver Projetos ↓","hero.cta.resume":"Ver Currículo",
+    "stats.years":"Anos de experiência","stats.connections":"Conexões no LinkedIn","stats.langs":"Idiomas falados","stats.countries":"Países com experiência",
+    "projects.label":"Trabalhos","projects.title":"Projetos em Destaque",
+    "filter.all":"Todos","filter.devops":"DevOps","filter.infra":"Infra","filter.video":"Vídeo","filter.text":"Artigo",
+    "resume.label":"Sobre","resume.title":"Experiência Profissional",
+    "resume.intro":"Engenheiro de Infraestrutura e Cloud Operations com 15+ anos de experiência gerenciando ambientes de TI empresariais nos setores de varejo e corporativo no Canadá e no Brasil. Foco em confiabilidade, estabilidade operacional e melhoria contínua — com expertise crescente em automação, containerização e práticas cloud-native.",
+    "resume.card.role":"Engenheiro de Infraestrutura & Cloud Operations",
+    "resume.card.contact":"Contato","resume.card.location":"Laval, Quebec, Canadá","resume.card.langs":"EN · FR · PT-BR",
+    "resume.card.skills":"Habilidades Principais","resume.card.education":"Educação","resume.card.courses":"Cursos & Treinamentos","resume.card.languages":"Idiomas",
+    "resume.edu.degree":"Redes de Computadores & Administração de TI",
+    "resume.download":"↓ Baixar PDF","resume.email":"Me enviar e-mail",
+    "exp.section":"Histórico Profissional",
+    "exp.1.period":"Dez 2025 – Presente · 4 meses","exp.1.role":"Analista de Suporte TI",
+    "exp.1.b1":"Mantido após transição de outsourcing de TI, continuando a suportar o mesmo ambiente empresarial",
+    "exp.1.b2":"Windows Server, Linux, Azure, Microsoft 365 (Exchange Online, Teams, SharePoint, Intune)",
+    "exp.1.b3":"Rede: firewalls/switches Fortinet, Wi-Fi Aruba, sistema POS Lightspeed",
+    "exp.1.b4":"Segurança: SentinelOne EDR, Cisco Duo MFA, WatchGuard, campanhas KnowBe4",
+    "exp.1.b5":"Ciclo de vida de dispositivos via ConnectWise RMM; credenciais via Passportal; docs via EDOC",
+    "exp.2.period":"Fev 2023 – Nov 2025 · 2 anos 10 meses","exp.2.role":"Suporte TI N2",
+    "exp.2.b1":"Suporte a Windows Servers, Linux, MS Office 365, Aruba Wi-Fi, Lightspeed POS",
+    "exp.2.b2":"Gerenciamento de hardware HP/Dell, Fortinet, Storage, ProxMox, Docker",
+    "exp.2.b3":"Serviços Azure, MS Intune e gerenciamento de endpoints",
+    "exp.3.period":"Mai 2018 – Fev 2023 · 4 anos 10 meses","exp.3.role":"Líder de Equipe de Redes",
+    "exp.3.b1":"Infraestrutura de rede de todas as lojas e fábricas (Windows Server, Veeam, SonicWall, SQL)",
+    "exp.3.b2":"Conectividade WAN/MPLS, Microsoft O365, GSUITE e sistemas POS em todo o Brasil",
+    "exp.3.b3":"Alta disponibilidade e ciclo de vida de equipamentos em todos os pontos de venda",
+    "exp.3.b4":"Automação com PowerShell para servidores, usuários e gestão de tarefas",
+    "exp.4.period":"Out 2016 – Mai 2018 · 1 ano 8 meses","exp.4.role":"Engenheiro de Redes Sênior",
+    "exp.4.b1":"Liderança em negociação e gestão de contratos com fornecedores e parceiros",
+    "exp.4.b2":"Gestão de importação financeira SQL 2014 em tempo real de 30 lojas via XML",
+    "exp.4.b3":"Customização do ERP TOTVS Protheus e projetos de migração de infraestrutura",
+    "exp.5.period":"Out 2014 – Out 2016 · 2 anos","exp.5.role":"Engenheiro de Redes",
+    "exp.5.b1":"Administração: Windows Servers, FTP, Office 365, ERP TOTVS, Zabbix, SonicWall, NCR Aloha POS",
+    "exp.5.b2":"Suporte a 300 usuários; inventário, documentação e gestão de contratos com fornecedores",
+    "exp.6.period":"Out 2012 – Out 2014 · 2 anos","exp.6.role":"Analista de Suporte TI",
+    "exp.6.b1":"Suporte remoto e presencial para fábrica e escritório administrativo",
+    "exp.6.b2":"Reparo de hardware e suporte N1 para ERP TOTVS Protheus",
+    "exp.7.period":"Jul 2012 – Set 2012 · 3 meses","exp.7.role":"Analista de Suporte de Redes",
+    "exp.7.b1":"Suporte a aplicações e data center; suporte remoto a usuários em todo o Brasil (Groupon)",
+    "exp.8.period":"Out 2008 – Jul 2012 · 3 anos 10 meses","exp.8.role":"Analista de Suporte de Redes",
+    "exp.8.b1":"Arquitetura e administração de redes para clientes privados e corporativos (Promaxi)",
+    "exp.8.b2":"Tecnologias: Firewall, Windows Servers, VPN, Virtualização, Proxy, Backup, VOIP",
+    "exp.8.b3":"Líder de equipe de campo — agendamento semanal e atendimentos emergenciais",
+    "contact.label":"Entre em contato","contact.title":"Vamos Trabalhar Juntos",
+    "contact.sub":"Tem um projeto ou quer discutir uma oportunidade? Adoraria ouvir você.",
+    "form.name":"Nome","form.email":"E-mail","form.subject":"Assunto","form.message":"Mensagem",
+    "form.send":"Enviar Mensagem","form.success":"✓ Mensagem enviada! Retornarei em breve.",
+    "footer.text":"© 2025 Gustavo Carvalho · Engenheiro de Infraestrutura & Cloud · Montreal, QC",
+    "modal.steps":"Como funciona","modal.github":"Ver no GitHub","modal.live":"Demo ao vivo",
+  }
+};
+
+let currentLang='en';
+function t(k){return i18n[currentLang][k]||i18n.en[k]||k;}
+function setLang(lang){
+  currentLang=lang;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===lang.toUpperCase()));
+  document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=t(el.getAttribute('data-i18n')));
+  renderProjects(currentFilter);
+}
+
+const projects=[
+  {id:1,type:'text',category:'devops',tags:['AWS','EC2','GitHub','CI/CD','DevOps'],date:'2024',image:null,video:null,
+    title:{en:'AWS + GitHub CI/CD Foundation',fr:'Fondation CI/CD AWS + GitHub',pt:'Base CI/CD AWS + GitHub'},
+    desc:{en:'Connected an AWS EC2-hosted web application to a GitHub repository, setting up the foundation for CI/CD workflows. Included secure token authentication, Git version control setup, and project documentation.',fr:'Connexion d\'une application web sur AWS EC2 à GitHub, établissant la base pour CI/CD. Inclut l\'authentification sécurisée, le contrôle de version Git et la documentation de projet.',pt:'Conectou aplicação web no AWS EC2 ao GitHub, estabelecendo base para workflows CI/CD. Inclui autenticação segura, controle de versão Git e documentação de projeto.'},
+    steps:{en:['Installed and configured Git on AWS EC2 instance','Linked remote GitHub repository with secure Personal Access Token','Full Git workflow: init → add → commit → push','Structured Markdown README for clean documentation','Prepared for AWS CodeBuild, CodeDeploy, and CodePipeline integration'],fr:['Installation de Git sur instance AWS EC2','Liaison du dépôt GitHub distant avec token sécurisé','Workflow Git complet: init → add → commit → push','README Markdown structuré pour documentation claire','Préparation pour CodeBuild, CodeDeploy et CodePipeline'],pt:['Instalou Git na instância AWS EC2','Vinculou repositório GitHub remoto com Personal Access Token','Workflow Git completo: init → add → commit → push','README em Markdown para documentação clara','Preparação para integração com CodeBuild, CodeDeploy e CodePipeline']},
+    github:'#',demo:null},
+  {id:2,type:'text',category:'devops',tags:['AWS','EC2','Maven','Java','VSCode','SSH'],date:'2024',image:null,video:null,
+    title:{en:'Java Web App on AWS EC2',fr:'App Web Java sur AWS EC2',pt:'App Web Java no AWS EC2'},
+    desc:{en:'Launched an EC2 instance, configured remote SSH from VSCode, and built a Java web application using Apache Maven — Day 1 of a 7-Day DevOps Challenge. Documented in a 16-page step-by-step guide.',fr:'Lancement d\'instance EC2, SSH distant depuis VSCode et application web Java avec Maven — Jour 1 d\'un défi DevOps de 7 jours. Documenté dans un guide de 16 pages.',pt:'Lançou instância EC2, configurou SSH remoto do VSCode e construiu app web Java com Maven — Dia 1 de um Desafio DevOps de 7 dias. Documentado em guia de 16 páginas.'},
+    steps:{en:['Launched and configured AWS EC2 instance','Integrated VSCode with EC2 via remote SSH extension','Created Java project structure with Apache Maven','Configured and tested basic web application','Produced 16-page documentation guide for reproducibility'],fr:['Lancement et configuration d\'instance AWS EC2','Intégration VSCode via SSH distant','Structure de projet Java avec Apache Maven','Configuration et test d\'application web de base','Guide de documentation de 16 pages'],pt:['Lançou e configurou instância AWS EC2','Integrou VSCode com EC2 via SSH remoto','Estrutura de projeto Java com Apache Maven','Configurou e testou aplicação web básica','Guia de documentação de 16 páginas']},
+    github:'#',demo:null},
+  {id:3,type:'text',category:'devops',tags:['AWS','QuickSight','S3','Data Analytics','Dashboard'],date:'2024',image:null,video:null,
+    title:{en:'Data Dashboard with Amazon QuickSight',fr:'Dashboard avec Amazon QuickSight',pt:'Dashboard com Amazon QuickSight'},
+    desc:{en:'Visualized Netflix catalog trends using Amazon QuickSight. Stored datasets in S3, connected to QuickSight, and built a multi-chart dashboard with donut charts, bar graphs, and tables for data-driven analysis.',fr:'Visualisation des tendances du catalogue Netflix avec Amazon QuickSight. Données dans S3, connectées à QuickSight, tableau de bord multi-graphiques.',pt:'Visualizou tendências do catálogo Netflix com Amazon QuickSight. Dados no S3, conectados ao QuickSight, dashboard multi-gráfico com análise orientada a dados.'},
+    steps:{en:['Uploaded Netflix dataset to Amazon S3','Connected S3 datasource to Amazon QuickSight','Created donut charts, bar graphs, and data tables','Combined all visualizations in a unified dashboard','Derived insights from complex data queries'],fr:['Upload du dataset Netflix sur Amazon S3','Connexion de la source S3 à Amazon QuickSight','Graphiques en anneau, barres et tableaux de données','Tableau de bord unifié avec toutes les visualisations','Dérivation d\'insights à partir de requêtes complexes'],pt:['Upload do dataset Netflix no Amazon S3','Conexão da fonte S3 ao Amazon QuickSight','Gráficos de rosca, barras e tabelas de dados','Dashboard unificado com todas as visualizações','Derivação de insights de consultas de dados complexas']},
+    github:'#',demo:null},
+  {id:4,type:'text',category:'infra',tags:['Docker','ProxMox','Linux','Virtualization','Enterprise'],date:'2023',image:null,video:null,
+    title:{en:'Container & Virtualization Infrastructure',fr:'Infrastructure Conteneurs & Virtualisation',pt:'Infraestrutura de Containers & Virtualização'},
+    desc:{en:'Production-grade management of containerized applications and virtualized workloads using Docker and ProxMox in a multi-site retail enterprise environment, integrating with Fortinet network security.',fr:'Gestion en production d\'applications conteneurisées et de charges virtualisées avec Docker et ProxMox dans un environnement retail multi-sites, intégré à la sécurité réseau Fortinet.',pt:'Gerenciamento em produção de aplicações containerizadas e cargas virtualizadas com Docker e ProxMox em ambiente de varejo multi-site, integrado à segurança de rede Fortinet.'},
+    steps:{en:['Deployed and maintained Docker containers in production retail environment','Managed ProxMox virtualization platform across multiple store sites','Configured and monitored storage systems for high availability','Integrated containerized services with Fortinet network security stack','Ensured uptime and performance monitoring across all workloads'],fr:['Déploiement et maintenance de conteneurs Docker en production retail','Gestion de ProxMox sur plusieurs sites','Configuration et surveillance de systèmes de stockage','Intégration avec la pile de sécurité Fortinet','Surveillance des performances et haute disponibilité'],pt:['Implantou e manteve containers Docker em produção','Gerenciou ProxMox em múltiplos sites de lojas','Configurou e monitorou sistemas de armazenamento para alta disponibilidade','Integrou serviços containerizados com stack de segurança Fortinet','Garantiu uptime e monitoramento de performance']},
+    github:null,demo:null},
+];
+
+let currentFilter='all';
+function filterProjects(type,evt){
+  currentFilter=type;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  if(evt&&evt.target)evt.target.classList.add('active');
+  renderProjects(type);
+}
+function renderProjects(filter){
+  const grid=document.getElementById('projectsGrid');
+  const filtered=filter==='all'?projects:projects.filter(p=>filter==='video'?p.type==='video':filter==='text'?p.type==='text':p.category===filter);
+  grid.innerHTML=filtered.map(p=>`
+    <div class="project-card" onclick="openModal(${p.id})">
+      <div class="project-media">
+        ${p.image?`<img src="${p.image}" style="width:100%;height:100%;object-fit:cover" alt="">`:
+          p.video?`<video src="${p.video}" style="width:100%;height:100%;object-fit:cover" muted></video>`:
+          `<div class="media-placeholder"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#c8c5bc" stroke-width="1.3">
+            ${p.type==='video'?'<circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/>':'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>'}
+          </svg></div>`}
+        <div class="project-type-badge">${p.type==='video'?'<span style="color:#c2410c">▶</span> Video':'📄 Article'}</div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags">${p.tags.map(tag=>`<span class="tag">${tag}</span>`).join('')}</div>
+        <h3 class="project-title">${p.title[currentLang]}</h3>
+        <p class="project-desc">${p.desc[currentLang]}</p>
+        <div class="project-footer">
+          <span class="project-date">${p.date}</span>
+          <span class="project-link">${t('modal.steps')} →</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function openModal(id){
+  const p=projects.find(x=>x.id===id);if(!p)return;
+  const mediaEl=document.getElementById('modalMedia');
+  const ex=mediaEl.querySelector('img,video,.media-placeholder');if(ex)ex.remove();
+  if(p.image){const img=document.createElement('img');img.src=p.image;img.style.cssText='width:100%;height:100%;object-fit:cover';mediaEl.appendChild(img);}
+  else if(p.video){const vid=document.createElement('video');vid.src=p.video;vid.controls=true;vid.style.cssText='width:100%;height:100%;object-fit:cover';mediaEl.appendChild(vid);}
+  else{const ph=document.createElement('div');ph.className='media-placeholder';ph.innerHTML=`<svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.1">${p.type==='video'?'<circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16"/>':'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/>'}</svg>`;ph.style.height='100%';mediaEl.appendChild(ph);}
+  document.getElementById('modalTags').innerHTML=p.tags.map(tg=>`<span class="tag">${tg}</span>`).join('');
+  document.getElementById('modalTitle').textContent=p.title[currentLang];
+  document.getElementById('modalDesc').textContent=p.desc[currentLang];
+  document.getElementById('modalSteps').innerHTML=p.steps[currentLang]?`<h4>${t('modal.steps')}</h4><ol>${p.steps[currentLang].map(s=>`<li>${s}</li>`).join('')}</ol>`:'';
+  const actEl=document.getElementById('modalActions');actEl.innerHTML='';
+  if(p.github)actEl.innerHTML+=`<a href="${p.github}" class="btn btn-primary" target="_blank">${t('modal.github')}</a>`;
+  if(p.demo)actEl.innerHTML+=`<a href="${p.demo}" class="btn btn-outline" target="_blank">${t('modal.live')}</a>`;
+  document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
+function closeModalOnBg(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+
+function sendEmail(){
+  const name=document.getElementById('cName').value.trim();
+  const email=document.getElementById('cEmail').value.trim();
+  const subject=document.getElementById('cSubject').value.trim();
+  const message=document.getElementById('cMessage').value.trim();
+  if(!name||!email||!message){alert('Please fill in the required fields.');return;}
+  window.location.href=`mailto:ggusttavo@gmail.com?subject=${encodeURIComponent(subject||'Portfolio Contact')}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+  document.getElementById('successMsg').classList.add('show');
+  setTimeout(()=>document.getElementById('successMsg').classList.remove('show'),5000);
+}
+function downloadResume(){alert('📄 Adicione aqui o link do seu PDF!\nExemplo: window.open("Gustavo_Carvalho_Resume.pdf","_blank")');}
+
+renderProjects('all');
+</script>
+</body>
+</html>
